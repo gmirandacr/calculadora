@@ -13,39 +13,62 @@ var calculadora = {
     actualizarResultado: function(nuevoResultado) {
         resultado = nuevoResultado;
     },
-    /*
-        asignarEventosFormatoBotones: function(selector){
-            var x = document.querySelectorAll(selector);
-            for (var i = 0; i<x.length;i++) {
-                x[i].onmouseover = this.eventoAchicaBoton;
-                x[i].onmouseleave = this.eventoVuelveBoton;
-            };
-        },
-        */
-    asignaEventoTecla: function() {
-        document.getElementById("on").addEventListener("click", function() { calculadora.borrarVisor(); });
+
+    asignarEventosTeclas: function(selector) {
+        var x = document.querySelectorAll(selector);
+        for (var i = 0; i < x.length; i++) {
+            x[i].onmousedown = this.eventoPresionaBoton;
+            x[i].onmouseup = this.eventoRestauraBoton;
+        };
     },
 
-    ingresaNumero: function(tecla) {
+    eventoPresionaBoton: function(event) {
+        calculadora.presionaBoton(event.target);
+    },
+
+    eventoRestauraBoton: function(event) {
+        calculadora.restauraBoton(event.target);
+    },
+
+    /*       
+       asignaEventoTecla: function() {
+           document.getElementById("on").addEventListener("click", function() { calculadora.borrarVisor(); });
+       },*/
+
+    ingresaNumero: function(elemento) {
         presionaBoton(tecla);
         /*mostrarVisor(tecla);
         restauraBoton(tecla);
         */
     },
 
-    presionaBoton: function(selector) {
-        var x = document.querySelector(selector);
-        x.style.width = "10%";
-        x.style.height = "60px";
+    presionaBoton: function(elemento) {
+        /*var x = document.querySelector(selector);*/
+        var x = elemento.id;
+        if (x == "1" || x == "2" || x == "3" || x == "0" || x == "igual" || x == "punto") {
+            elemento.style.width = "28%";
+            elemento.style.height = "62px";
+        } else if (x == "mas") {
+            elemento.style.width = "88%";
+            elemento.style.height = "98%";
+        } else {
+            elemento.style.width = "21%";
+            elemento.style.height = "62px";
+        }
     },
 
-    restauraBoton: function(selector) {
-        var x = document.querySelector(selector);
-        console.log(x);
-        console.log(x.style.width);
-        x.style.width = "22%";
-        console.log(x.style.width);
-        x.style.height = "62,91px";
+    restauraBoton: function(elemento) {
+        var x = elemento.id;
+        if (x == "1" || x == "2" || x == "3" || x == "0" || x == "igual" || x == "punto") {
+            elemento.style.width = "29%";
+            elemento.style.height = "62.91px";
+        } else if (x == "mas") {
+            elemento.style.width = "90%";
+            elemento.style.height = "100%";
+        } else {
+            elemento.style.width = "22%";
+            elemento.style.height = "62.91px";
+        }
     },
 
     borrarVisor: function() {
@@ -79,7 +102,7 @@ var calculadora = {
       */
 
     inicio: (function() {
-        this.asignaEventoTecla();
+        this.asignarEventosTeclas(".tecla");
     })
 
 };
